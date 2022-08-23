@@ -76,15 +76,17 @@ class NewsApi(BaseProvider):
 		print(categories, language_str)
 		p = {
 			'apiKey':self.appkey,
-			# 'category':categories, 
-			# 'language':language_str,
-			# 'from':today,
-			# 'to':today,
-			# 'coutry':countries_str,
-			# 'pageSize':100,
-			# 'page':page,
-			# 'q':keyword
+			'category':categories, 
+			'country':countries_str,
+			'pageSize':100,
+			'page':page,
+			'q':keyword
 		}
+		# 'sources':'bbc-news'
+		# 'language':language_str,
+		# 'from':today,
+		# 'to':today,
+		print('url=', url, 'params=', p)
 		x = hc.get(url, params=p)
 		return x
 
