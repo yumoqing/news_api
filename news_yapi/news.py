@@ -32,7 +32,7 @@ class NewsApi(BaseProvider):
 			'publish_date':'publishedAt'
 		}
 	
-	def source_result_mapping(self):
+	def sources_result_mapping(self):
 		return {}
 
 	def source_mapping(self):
