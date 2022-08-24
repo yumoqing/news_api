@@ -11,7 +11,7 @@ def set_app_info(appkey):
 	})
 
 def buildProvider(newsfeed):
-	print(f'TheNewsApi version {__version__}')
+	print(f'news_yapi version {__version__}')
 	return NewsApi(newsfeed)
 
 class NewsApi(BaseProvider):
@@ -58,7 +58,7 @@ class NewsApi(BaseProvider):
 		categories = None if len(categories) == 0 else categories[0]
 		language_str = None if len(language) == 0 else language[0]
 		countries_str = None if len(countries) == 0 else countries[0]
-		sources = self.newsfeed.array2params(sources)
+		sources = self.newsfeed.array2param(sources)
 		if sources is not None:
 			return self.api.get_top_headlines(q=keyword,
 							sources=sources,
@@ -84,8 +84,8 @@ class NewsApi(BaseProvider):
 		categories = None if len(categories) == 0 else categories[0]
 		language_str = None if len(language) == 0 else language[0]
 		countries_str = None if len(countries) == 0 else countries[0]
-		sources = self.newsfeed.array2params(sources)
-		domains = self.newsfeed.array2params(domains)
+		sources = self.newsfeed.array2param(sources)
+		domains = self.newsfeed.array2param(domains)
 		if sources is not None:
 			return self.api.get_everything(q=keyword,
 							sources=sources,
