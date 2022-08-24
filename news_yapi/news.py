@@ -42,8 +42,14 @@ class NewsApi(BaseProvider):
 			'countries':'country'
 		}
 
-	def sources(self):
-		return self.api.get_sources()
+	def sources(self, countries=[], categories=[], language=[]):
+		categories = None if len(categories) == 0 else categories[0]
+		language_str = None if len(language) == 0 else language[0]
+		countries_str = None if len(countries) == 0 else countries[0]
+		return self.api.get_sources(country=countries_str,
+						category=categories,
+						language=language_str
+		)
 
 	def last_news(self, q=None, 
 						domains=[],
@@ -87,6 +93,7 @@ class NewsApi(BaseProvider):
 							domains=domains,
 							from_param=from_date,
 							to=to_date,
+							searcIn='title'
 							page=page)
 
 
