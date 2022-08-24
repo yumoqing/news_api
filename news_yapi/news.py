@@ -59,15 +59,11 @@ class NewsApi(BaseProvider):
 		language_str = None if len(language) == 0 else language[0]
 		countries_str = None if len(countries) == 0 else countries[0]
 		sources = self.newsfeed.array2param(sources)
-		if sources is not None:
-			return self.api.get_top_headlines(q=keyword,
-							sources=sources,
-							page=page)
-		else:
-			return self.api.get_top_headlines(q=keyword,
-							category=categories,
-							language=language_str,
+		return self.api.get_top_headlines(q=keyword,
 							country=countries_str,
+							category=categories,
+							sources=sources,
+							language=language_str,
 							page=page)
 
 	def hist_news(self, q=None, categories=[],
@@ -86,18 +82,8 @@ class NewsApi(BaseProvider):
 		countries_str = None if len(countries) == 0 else countries[0]
 		sources = self.newsfeed.array2param(sources)
 		domains = self.newsfeed.array2param(domains)
-		if sources is not None:
-			return self.api.get_everything(q=keyword,
+		return self.api.get_everything(q=keyword,
 							sources=sources,
-							domains=domains,
-							from_param=from_date,
-							to=to_date,
-							page=page)
-		else:
-			return self.api.get_everything(q=keyword,
-							category=categories,
-							language=language_str,
-							country=countries_str,
 							domains=domains,
 							from_param=from_date,
 							to=to_date,
