@@ -93,7 +93,7 @@ class NewsApi(BaseProvider):
 							domains=domains,
 							from_param=from_date,
 							to=to_date,
-							searcIn='title'
+							searcIn='title',
 							page=page)
 
 
