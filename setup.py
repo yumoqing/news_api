@@ -6,20 +6,20 @@ except ImportError:
 with open('README.md', 'r') as f:
 	long_description = f.read()
 
-with open('news_api/version.py', 'r') as f:
+with open('news_yapi/version.py', 'r') as f:
 	x = f.read()
 	y = x[x.index("'")+1:]
 	z = y[:y.index("'")]
 	version = z
 
 setup(
-	name='news_api',
-	packages=['news_api'],
+	name='news_yapi',
+	packages=['news_yapi'],
 	version=version,
 	description='a unitts driver for ios device, it use AVFoundation.AVSpeechSynthesizer',
 	# summary='pyttsx3 driver for ios device',
 	author='Yu Moqing',
-	url='https://github.com/yumoqing/news_api',
+	url='https://github.com/yumoqing/news_yapi',
 	long_description=long_description,
 	long_description_content_type="text/markdown",
 	author_email='yumoqing@gmail.com',

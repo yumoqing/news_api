@@ -1,5 +1,10 @@
-# News_API
+# news_yapi
 this is a news feed provider of [newsapi](https://newsapi.org) for [uninews](https://pypi.org/project/uninews)
+
+## Dependency
+```
+pip install newsapi-python
+```
 
 ## Installation
 ```

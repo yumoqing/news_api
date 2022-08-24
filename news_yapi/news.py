@@ -1,8 +1,8 @@
-import requests
-from appPublic.http_client import Http_Client
+from newsapi import NewsApiClient
 from appPublic.timeUtils import curDateString
 from uninews.baseprovider import BaseProvider
 from .version import __version__
+
 app_info = {}
 
 def set_app_info(appkey):
@@ -17,7 +17,7 @@ def buildProvider(newsfeed):
 class NewsApi(BaseProvider):
 	def __init__(self, newsfeed):
 		self.newsfeed = newsfeed
-		self.appkey = app_info.get('appkey')
+		self.api = NewsApiClient(api_key=app_info.get('appkey'))
 
 	def get_result_mapping(self):
 		return {
@@ -32,63 +32,77 @@ class NewsApi(BaseProvider):
 			'publish_date':'publishedAt'
 		}
 	
-	def news(self, q=None, 
+	def source_result_mapping(self):
+		return {}
+
+	def source_mapping(self):
+		return {
+			'link':'url',
+			'categories':'category',
+			'countries':'country'
+		}
+
+	def sources(self):
+		return self.api.get_sources()
+
+	def last_news(self, q=None, 
+						domains=[],
+						sources=[],
 						categories=[],
 						countries=[], 
 						language=[], 
 						page=0):
-		url = 'https://newsapi.org/v2/everything'
-		hc = Http_Client()
 		keyword = q
 		if keyword == '':
 			keyword = None
 		categories = None if len(categories) == 0 else categories[0]
 		language_str = None if len(language) == 0 else language[0]
 		countries_str = None if len(countries) == 0 else countries[0]
-		today = curDateString()
-		p = {
-			'apiKey':self.appkey,
-			'language':language_str,
-			'from':today,
-			'to':today,
-			'pageSize':100,
-			'page':page,
-			'q':keyword
-		}
-		x = hc.get(url, params=p)
-		return x
-		return self._newscall(url, q, categories=categories,
-					countries=countries,
-					language=language, 
-					page=page)
+		sources = self.newsfeed.array2params(sources)
+		if sources is not None:
+			return self.api.get_top_headlines(q=keyword,
+							sources=sources,
+							page=page)
+		else:
+			return self.api.get_top_headlines(q=keyword,
+							category=categories,
+							language=language_str,
+							country=countries_str,
+							page=page)
 
-	def topstory(self, q=None, categories=[],
-						countries=[], language=[], page=0):
-		url = 'https://newsapi.org/v2/top-headlines'
-		hc = Http_Client()
+	def hist_news(self, q=None, categories=[],
+						countries=[], 
+						language=[], 
+						domains=[],
+						sources=[],
+						from_date=None,
+						to_date=None,
+						page=0):
 		keyword = q
 		if keyword == '':
 			keyword = None
 		categories = None if len(categories) == 0 else categories[0]
 		language_str = None if len(language) == 0 else language[0]
 		countries_str = None if len(countries) == 0 else countries[0]
-		today = curDateString()
-		print(categories, language_str)
-		p = {
-			'apiKey':self.appkey,
-			'category':categories, 
-			'country':countries_str,
-			'pageSize':100,
-			'page':page,
-			'q':keyword
-		}
-		# 'sources':'bbc-news'
-		# 'language':language_str,
-		# 'from':today,
-		# 'to':today,
-		print('url=', url, 'params=', p)
-		x = hc.get(url, params=p)
-		return x
+		sources = self.newsfeed.array2params(sources)
+		domains = self.newsfeed.array2params(domains)
+		if sources is not None:
+			return self.api.get_everything(q=keyword,
+							sources=sources,
+							domains=domains,
+							from_param=from_date,
+							to=to_date,
+							page=page)
+		else:
+			return self.api.get_everything(q=keyword,
+							category=categories,
+							language=language_str,
+							country=countries_str,
+							domains=domains,
+							from_param=from_date,
+							to=to_date,
+							page=page)
+
 
 if __name__ == '__main__':
 	print('input appkey:')
