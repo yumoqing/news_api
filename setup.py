@@ -17,7 +17,6 @@ setup(
 	packages=['news_yapi'],
 	version=version,
 	description='a unitts driver for ios device, it use AVFoundation.AVSpeechSynthesizer',
-	# summary='pyttsx3 driver for ios device',
 	author='Yu Moqing',
 	url='https://github.com/yumoqing/news_yapi',
 	long_description=long_description,
